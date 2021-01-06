@@ -10,8 +10,8 @@ public class Main {
 	
     public static final Scanner scanner = new Scanner(System.in);
     
-    public static Connection connect() {
-        String dbAddress = "jdbc:mysql:";
+    public static Connection connect() throws SQLException {
+        String dbAddress = "jdbc:mysql://";
         String dbUsername = "";
         String dbPassword = "";
         
@@ -22,19 +22,17 @@ public class Main {
         } catch (ClassNotFoundException e) {
             System.out.println("[ERROR]: Java MySQL DB Driver not found!");
             System.exit(0);
-        } catch (SQLException e) {
-            System.out.println(e);
         }
         
         return con;
     }
     
     public static void createTables() throws SQLException {
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         String sql;
-		
-		sql = "DROP TABLE IF EXISTS driver, vehicle, passenger, request, trip, taxi_stop;";
+
+        sql = "DROP TABLE IF EXISTS driver, vehicle, passenger, request, trip, taxi_stop;";
         stmt.executeUpdate(sql);
         
         //driver
@@ -90,7 +88,7 @@ public class Main {
     }
     
     public static void deleteTables() throws SQLException {
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         String sql;
         sql = "DROP TABLE IF EXISTS driver, vehicle, passenger, request, trip, taxi_stop;";
@@ -100,7 +98,7 @@ public class Main {
     }
     
     public static boolean loadData(String path) throws SQLException {
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         String sql;
         
@@ -187,7 +185,7 @@ public class Main {
     }
     
     public static void checkData() throws SQLException {
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         ResultSet resultSet;
         String sql;
@@ -236,7 +234,7 @@ public class Main {
     public static int requestRide(int passengers, String model, int driving_years) throws SQLException {
         int drivers_n = 0;
         
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         ResultSet resultSet;
         String sql;
@@ -258,7 +256,7 @@ public class Main {
     public static int findLastRequestID() throws SQLException {
         int request_id = 0;
         
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         ResultSet resultSet;
         String sql;
@@ -279,7 +277,7 @@ public class Main {
     public static boolean checkLocation(String location) throws SQLException {
         boolean check = false;
         
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         ResultSet resultSet;
         String sql;
@@ -297,7 +295,7 @@ public class Main {
     }
     
     public static void insertRequest(int id, int passenger_id, String start_location, String destination, String model, int passengers, int driving_years) throws SQLException {
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         String sql;
         
@@ -310,7 +308,7 @@ public class Main {
     }
     
     public static void checkRecords(int passenger_id, String start_date, String end_date, String destination) throws SQLException {
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         ResultSet resultSet;
         String sql;
@@ -343,7 +341,7 @@ public class Main {
     }
     
     public static void searchRequest(int driver_id, int driver_location_x, int driver_location_y, int max_distance) throws SQLException {
-	Connection con= connect();
+	Connection con = connect();
         Statement stmt = con.createStatement();
         String sql;
 		
@@ -381,7 +379,7 @@ public class Main {
     }
     
     public static void takeRequest(int driver_id, int request_id) throws SQLException {
-	Connection con= connect();
+	Connection con = connect();
         Statement stmt = con.createStatement();
         ResultSet rs;
         String sql;
@@ -437,7 +435,7 @@ public class Main {
     }
     
     public static void finishTrip(int trip_id) throws SQLException, ParseException {
-	Connection con= connect();
+	Connection con = connect();
         Statement stmt = con.createStatement();
         String sql;
 		
@@ -487,7 +485,7 @@ public class Main {
             System.out.printf("%d, %s, %s, %s, %d\n", print_trip_id, print_passenger_name, print_start_time, print_end_time, print_fee);
         }
 		
-		stmt.close();
+        stmt.close();
         rs.close();
         con.close();
     }
@@ -495,7 +493,7 @@ public class Main {
     public static int findUnfinishedTrips(int driver_id) throws SQLException {
 	int trip_id = 0;
         
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         String sql;
 		
@@ -512,7 +510,7 @@ public class Main {
 		String start_time = rs.getTimestamp(3).toString();
 		System.out.printf("%d, %d, %s\n", trip_id, passenger_id, start_time);
 	}
-		stmt.close();
+        stmt.close();
         rs.close();
         con.close();
 	
@@ -520,7 +518,7 @@ public class Main {
     }
     
     public static void findFinishedTrips(int min_dist, int max_dist) throws SQLException {
-        Connection con= connect();
+        Connection con = connect();
         Statement stmt = con.createStatement();
         ResultSet resultSet;
         String sql;
